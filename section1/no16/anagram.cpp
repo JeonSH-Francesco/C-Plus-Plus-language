@@ -31,3 +31,8 @@ int main(){
 	printf("\nYES\n");	
 	return 0;
 }
+
+
+//input.txt의 내용들
+//AbaAeCeZ
+//baeeACAZ
