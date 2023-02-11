@@ -64,7 +64,6 @@ Date::Date(string strDate) {
 	month= stoi(strtok(nullptr, "/"));
 	day= stoi(strtok(nullptr, "/"));
 }
-
 void Date::show() {
 
 	cout << year << "년" << month << "월" << day << "일" << endl;
