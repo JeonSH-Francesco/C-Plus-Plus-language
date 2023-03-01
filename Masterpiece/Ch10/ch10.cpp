@@ -26,19 +26,20 @@ protected:
 
 class UI {
 public:
-    static int seleteMenu() {
+    static int selectMenu() {
         int n;
         cout << "삽입:1, 삭제:2, 모두보기:3, 종료:4 >> ";
         cin >> n;
+
         return n;
     }
-    static int seleteShape() {
+    static int selectShape() {
         int n;
         cout << "선:1, 원:2, 사각형:3 >> ";
         cin >> n;
         return n;
     }
-    static int seleteDelIndex() {
+    static int selectDelIndex() {
         int n;
         cout << "삭제하고자 하는 도형의 인덱스 >> ";
         cin >> n;
@@ -65,12 +66,12 @@ public:
         
         while (true) {
             int n;
-            n = UI::seleteMenu();
+            n = UI::selectMenu();
 
 
             switch (n) {
             case 1: //삽입을 선택한 경우
-                n = UI::seleteShape();
+                n = UI::selectShape();
                 switch (n) {
                 case 1: //선을 선택한 경우
                     v.push_back(new Line());
@@ -88,7 +89,7 @@ public:
                 break;
 
             case 2: { //삭제를 선택한 경우
-                n = UI::seleteDelIndex();
+                n = UI::selectDelIndex();
                 if (n >= v.size() || n < 0) { // 없는 인덱스에 대한 예외처리
                     cout << "없는 인덱스 입니다.\n";
                     break;
