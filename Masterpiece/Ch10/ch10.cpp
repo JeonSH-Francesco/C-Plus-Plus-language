@@ -24,8 +24,11 @@ protected:
     virtual void draw() { cout << "Line" << endl; }
 };
 
+
+
 class UI {
 public:
+    
     static int selectMenu() {
         int n;
         cout << "삽입:1, 삭제:2, 모두보기:3, 종료:4 >> ";
@@ -33,18 +36,23 @@ public:
 
         return n;
     }
+    
     static int selectShape() {
         int n;
         cout << "선:1, 원:2, 사각형:3 >> ";
         cin >> n;
+
         return n;
     }
-    static int selectDelIndex() {
+
+    static int selectDeletendex() {
         int n;
         cout << "삭제하고자 하는 도형의 인덱스 >> ";
         cin >> n;
+
         return n;
     }
+    
     static void showAll(vector<Shape*>& v, vector<Shape*>::iterator& it) {
         int i = 0;
         for (it = v.begin(); it != v.end(); it++, i++) { // vector v의 첫 원소부터 끝 원소까지 탐색 및 출력
@@ -57,11 +65,13 @@ public:
 class GraphicEditor {
     vector<Shape*> v;
     vector<Shape*>::iterator it;
+
 public:
     GraphicEditor() {
         cout << "그래픽 에디터입니다.\n";
         start();
     }
+
     void start() {
         
         while (true) {
@@ -89,7 +99,7 @@ public:
                 break;
 
             case 2: { //삭제를 선택한 경우
-                n = UI::selectDelIndex();
+                n = UI::selectDeletendex();
                 if (n >= v.size() || n < 0) { // 없는 인덱스에 대한 예외처리
                     cout << "없는 인덱스 입니다.\n";
                     break;
