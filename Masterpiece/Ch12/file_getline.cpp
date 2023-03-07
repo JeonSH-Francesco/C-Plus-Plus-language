@@ -5,7 +5,7 @@ using namespace std;
 
 int main() {
 
-	string name, dept;
+	string name, dept,strsid;
 	int sid;
 
 	//키보드로부터 읽기
@@ -14,7 +14,7 @@ int main() {
 
 	cout << "학번 >> ";
 	cin >> sid;
-	getline(cin, dept);
+	getline(cin, strsid);
 
 	cout << "학과 >> ";
 	getline(cin, dept);
@@ -24,10 +24,8 @@ int main() {
 	ofstream fout("c:\\tempC++\\student.txt");
 
 	if (!fout) {
-
 		cout << "c:\\tempC++\\student.txt 파일을 열 수 없다.";
 		return 0;
-
 	}
 
 	//파일 쓰기
