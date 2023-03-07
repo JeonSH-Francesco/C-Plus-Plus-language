@@ -1,4 +1,3 @@
-
 /*
 #include <iostream>
 #include <string>
@@ -82,6 +81,51 @@ int main() {
 		}
 	}
 }
+--------
+1번문제
+
+#include <iostream>
+using namespace std;
+
+int main() {
+	int a;
+
+	int cnt = 0;
+
+	cout << "a의 개수를 카운트 합니다. 문장을 입력하세요" << endl;
+	while ((a = cin.get()) != EOF) {
+		if (a == 'a')
+			cnt++;
+		else if (a == '\n')
+			break;
+	}
+	cout << cnt;
+
+}
+------------
+2번문제
+#include <iostream>
+using namespace std;
+
+int main() {
+	char ch;
+	int cnt=0;
+
+	cout << "빈칸이 몇 개 사용했는지 카운트 합니다." << endl;
+
+	while (true) {
+		cin.get(ch); // 키를 ch에 읽어옴
+
+		if (cin.eof()) // EOF 문자 즉 ctrl-z 키가 입력된 경우, 읽기 종료
+			break;
+		if (ch == '\n') // <Enter> 키가 입력된 경우 읽기 중단
+			break;
+		else if (ch == ' ')
+			cnt++;
+	}
+	cout << cnt;
+}
+
 ----
 7번문제
 #include <iostream>
@@ -157,4 +201,6 @@ int main() {
 			cout << "login fail. try again!!" << endl;
 	}
 }
+
+
 */
