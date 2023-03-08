@@ -70,10 +70,9 @@ SearchWords::~SearchWords() {
 }
 
 int main() {
-	SearchWords a;
-	a.run();
+	SearchWords sw;
+	sw.run();
 }
-
 
 
 /*
