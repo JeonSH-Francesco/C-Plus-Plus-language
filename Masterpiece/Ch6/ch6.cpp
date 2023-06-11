@@ -364,9 +364,11 @@ int main() {
 #include <cstdlib>
 using namespace std;
 
+
 class Random {
 public:
-	static void seed() { srand((unsigned)time(0)); }
+	//항상 다른 랜덤 수를 발생시키기 위한 seed를 설정하는 함수
+	static void seed() { srand((unsigned int)time(NULL)); }
 	static int nextInt(int min = 0, int max = 32767);
 	static char nextAlphabet();
 	static double nextDouble();
@@ -376,32 +378,34 @@ int Random::nextInt(int min, int max) {
 	return rand() % (max - min) + min;
 }
 
-
 char Random::nextAlphabet() {
-	if (rand()%2 == 0) return rand() % 26 + 'a';
+	if (rand() % 2 == 0) return rand() % 26 + 'a';
 	else return rand() % 26 + 'A';
 }
+
 
 double Random::nextDouble() {
 	return (double)rand() / RAND_MAX;
 }
 
 int main() {
+	Random r;
+	r.seed();
 	cout << "1에서 100까지 랜덤한 정수 10개를 출력합니다." << endl;
 	for (int i = 0; i < 10; i++) {
-		cout << Random::nextInt(1, 100) << ' ';
+		cout << r.nextInt(1, 100) << ' ';
 	}
 	cout << endl;
 
 	cout << "알파벳을 랜덤하게 10개를 출력합니다." << endl;
 	for (int i = 0; i < 10; i++) {
-		cout << Random::nextAlphabet() << ' ';
+		cout << r.nextAlphabet() << ' ';
 	}
 	cout << endl;
 
 	cout << "랜덤한 실수 10개를 출력합니다" << endl;
 	for (int i = 0; i < 10; i++) {
-		cout << Random::nextDouble() << ' ';
+		cout << r.nextDouble() << ' ';
 	}
 	cout << endl;
 	return 0;
