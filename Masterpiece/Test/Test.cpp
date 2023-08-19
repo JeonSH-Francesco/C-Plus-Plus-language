@@ -1,8 +1,3 @@
-
-
-
-
-
 /*
 ------
 #include <iostream>
@@ -1433,5 +1428,416 @@ int main() {
 	char c[5] = { 1,2,3,4,5 };
 	print(c, 5);
 }
+-------
+#include <iostream>
+using namespace std;
+
+template <class T>
+T add(T data[],int n){
+	T sum = 0;
+	for (int i = 0; i < n; i++) {
+		sum += data[i];
+	}
+	return sum;
+}
+
+int main() {
+	int x[] = { 1,2,3,4,5 };
+	double d[]={1.2, 2.3, 3.4, 4.5, 5.6, 6.7};
+
+	cout << "sum of x[]=" << add(x, 5) << endl;
+	cout << "sum of d[]=" << add(d, 6) << endl;
+}
+------------
+#include <iostream>
+using namespace std;
+
+template <class T1,class T2>
+void mcopy(T1 src[], T2 dst[], int n) {
+	for (int i = 0; i < n; i++) {
+		dst[i] = (T2)src[i];
+	}
+}
+
+int main() {
+	int x[] = { 1,2,3,4,5 };
+	double d[5];
+	char c[5] = { 'H','e','l','l','o' }, e[5];
+
+	mcopy(x, d, 5);
+	mcopy(c, e, 5);
+
+	for (int i = 0; i < 5; i++) {
+		cout << d[i] << ' ';
+	}
+	cout << endl;
+	for (int i = 0; i < 5; i++) {
+		cout << e[i] << ' ';
+	}
+}
+----
+#include <iostream>
+using namespace std;
+
+template <class T>
+void print(T array[], int n) {
+	for (int i = 0; i < n; i++) {
+		cout << array[i] << '\t';
+	}
+	cout << endl;
+}
+
+void print(char array[], int n) {
+	for (int i = 0; i < n; i++) {
+		cout << (int)array[i] << '\t';
+	}
+	cout << endl;
+}
+
+int main() {
+	int x[] = { 1,2,3,4,5 };
+	double d[5] = { 1.1,2.2,3.3,4.4,5.5 };
+
+
+	print(x, 5);
+	print(d, 5);
+
+	char c[5] = { 1,2,3,4,5 };
+	print(c, 5);
+}
+--------
+#include <iostream>
+using namespace std;
+
+template<class T>
+class MyStack {
+	int tos;
+	T data[100];
+public:
+	MyStack();
+	void push(T element);
+	T pop();
+};
+
+
+template <class T>
+MyStack<T>::MyStack() { // 생성자
+	tos = -1; // 스택은 비어있음
+}
+
+template <class T>
+void MyStack<T>::push(T element) {
+	if (tos == 99) {
+		cout << "stack full";
+		return;
+	}
+	tos++;
+	data[tos] = element;
+}
+
+template <class T>
+T MyStack<T>::pop() {
+	T retData;
+	if (tos == -1) {
+		cout << "stack empty";
+		return 0;
+	}
+	retData = data[tos--];
+	return retData;
+}
+
+
+int main() {
+	MyStack<int> iStack;
+	iStack.push(3);
+	cout << iStack.pop() << endl;
+
+	MyStack<double> dStack;
+	dStack.push(3.5);
+	cout << dStack.pop() << endl;
+
+	MyStack<char>* p = new MyStack<char>();
+	p->push('a');
+	cout << p->pop() << endl;
+	delete p;
+}
+-------
+//제네릭 스택의 제네릭 타입을 포인터나 클래스로 구체화 하는 예
+#include <iostream>
+#include <string>
+using namespace std;
+
+
+template<class T>
+class MyStack {
+	int tos;
+	T data[100];
+public:
+	MyStack();
+	void push(T element);
+	T pop();
+};
+
+
+template <class T>
+MyStack<T>::MyStack() { // 생성자
+	tos = -1; // 스택은 비어있음
+}
+
+template <class T>
+void MyStack<T>::push(T element) {
+	if (tos == 99) {
+		cout << "stack full";
+		return;
+	}
+	tos++;
+	data[tos] = element;
+}
+
+template <class T>
+T MyStack<T>::pop() {
+	T retData;
+	if (tos == -1) {
+		cout << "stack empty";
+		return 0;
+	}
+	retData = data[tos--];
+	return retData;
+}
+
+class Point {
+	int x, y;
+public:
+	Point(int x = 0, int y = 0) { this->x = x; this->y = y; }
+	void show() { cout << '(' << x << ',' << y << ')'<<endl; }
+};
+
+int main() {
+	MyStack<int*> ipStack; //int *만 저장하는 스택
+	int* p = new int[3];
+	for (int i = 0; i < 3; i++) {
+		p[i] = i * 10;
+	}
+	ipStack.push(p);
+	int* q = ipStack.pop();
+	for(int j = 0; j < 3; j++) {
+		cout << q[j] << ' ';
+	}
+	cout << endl;
+
+	delete[] p;
+
+	MyStack<Point> pointStack;//Point만 저장하는 스택
+	Point a(2, 3), b;
+	pointStack.push(a); // Point 객체 push
+	b = pointStack.pop();//Point 객체 pop
+	b.show(); //Point 객체 출력
+
+	MyStack<Point*> pStack;
+	pStack.push(new Point(10, 20));
+	Point* pPoint = pStack.pop();
+	pPoint->show();
+
+	MyStack<string> stringStack;
+	string s = "c++";
+	stringStack.push(s);
+	stringStack.push("java");
+	cout << stringStack.pop() << ' ';
+	cout << stringStack.pop() << endl;
+
+}
+--------
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+
+	// 빈 vector 생성
+	vector<int> myVector;
+
+	// push_back을 사용하여 요소 추가
+	myVector.push_back(10);
+	myVector.push_back(20);
+	myVector.push_back(30);
+
+	// begin()과 end()를 사용하여 벡터의 요소 순회
+	cout << "Vector elements: ";
+	for (auto it = myVector.begin(); it != myVector.end(); ++it) {
+		cout << *it << " ";
+	}
+	cout << endl;
+
+	// empty()를 사용하여 벡터가 비어있는지 확인
+	if (myVector.empty()) {
+		cout << "Vector is empty." << endl;
+	}
+	else {
+		cout << "Vector size: " << myVector.size() << endl;
+
+		// operator[]를 사용하여 특정 인덱스의 요소에 접근
+		cout << "Element at index 1: " << myVector[1] << endl;
+
+		// at()을 사용하여 특정 인덱스의 요소에 접근
+		cout << "Element at index 2: " << myVector.at(2) << endl;
+
+		// erase()를 사용하여 특정 인덱스의 요소 제거
+		myVector.erase(myVector.begin() + 1); // 두 번째 요소 제거
+
+		// insert()를 사용하여 특정 인덱스에 요소 삽입
+		myVector.insert(myVector.begin() + 1, 50); // 두 번째 위치에 50 삽입
+
+		// operator=()를 사용하여 다른 vector로 복사
+		vector<int> anotherVector = myVector;
+
+		// 두 번째 vector 출력
+		cout << "Copied vector elements: ";
+		for (int num : anotherVector) {
+			cout << num << " ";
+		}
+		cout << endl;
+	}
+
+	return 0;
+}
+----
+#include <iostream>
+#include <map>
+using namespace std;
+
+int main() {
+
+	// 빈 map 생성
+	map<string, int> myMap;
+
+	// insert()를 사용하여 키-값 쌍 추가
+	myMap.insert(make_pair("one", 1));
+	myMap.insert(make_pair("two", 2));
+	myMap.insert(make_pair("three", 3));
+
+	// begin()과 end()를 사용하여 map의 요소 순회
+	cout << "Map elements: ";
+	for (auto it = myMap.begin(); it != myMap.end(); ++it) {
+		cout << "(" << it->first << ":" << it->second << ") ";
+	}
+	cout << endl;
+
+	// empty()를 사용하여 map이 비어있는지 확인
+	if (myMap.empty()) {
+		cout << "Map is empty." << endl;
+	}
+
+	else {
+		cout << "Map size: " << myMap.size() << endl;
+
+		// operator[]를 사용하여 특정 키의 값을 접근
+		cout << "Value for key 'two': " << myMap["two"] << endl;
+
+		// find()를 사용하여 특정 키를 검색
+		auto found = myMap.find("three");
+		if (found != myMap.end()) {
+			cout << "Key 'three' found. Value: " << found->second << endl;
+		}
+
+		// erase()를 사용하여 특정 키의 요소 제거
+		myMap.erase("two");
+
+		// insert()를 사용하여 키-값 쌍 추가 (또 다른 방법)
+		myMap["four"] = 4;
+
+		// operator=()를 사용하여 다른 map으로 복사
+		map<string, int> anotherMap = myMap;
+
+		// 두 번째 map 출력
+		cout << "Copied map elements: ";
+		for (const auto& pair : anotherMap) {
+			cout << "(" << pair.first << ":" << pair.second << ") ";
+		}
+		cout << endl;
+	}
+
+	return 0;
+}
+----------
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main() {
+	vector<int> v;
+
+	cout << "5개의 정수를 입력하세요:";
+	for (int i = 0; i < 5; i++) {
+		int n;
+		cin >> n;
+		v.push_back(n);
+	}
+
+	sort(v.begin(), v.end());
+
+	vector<int>::iterator it;
+
+	for (it = v.begin(); it != v.end(); it++) {
+		cout << *it << ' ';
+	}
+	cout << endl;
+
+}
+----
+#include <iostream>
+using namespace std;
+
+int main() {
+	double pi = 3.14;
+	auto calc = [pi](int r)->double { return pi * r * r; };
+	cout << "반지름이 3인 원의 면적은" << calc(3);
+
+}
+
+--------
+#include <iostream>
+using namespace std;
+
+int main() {
+	int sum = 0;
+
+	[&sum](int x, int y) { sum = x + y; }(2, 3);
+
+	cout << "합은 " << sum;
+}
+-----
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+void print(int n) {
+	cout << n << " ";
+}
+
+int main() {
+	vector<int> v = { 1,2,3,4,5 };
+
+	for_each(v.begin(), v.end(), print);
+}
+----
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main() {
+	vector<int> v = { 1,2,3,4,5 };
+
+	for_each(v.begin(), v.end(),[](int n){cout << n << " ";});
+}
+----
+C++에서 람다식의 의미
+C++ 프로그램 작성 시 람다가 꼭 필요한 기능은 아니다. 다만 간단하고, 짧게 최적화 된 코드를 작성하는데 도움이 된다.
+특별히 람다가 유용한 경우는 다음과 같다.
+
+한 번만 호출하고 재사용하지 않기 때문에, 함수에 이름을 붙일 필요가 없는 경우
+STL 알고리즘 함수의 매개 변수에 연산 코드를 넘기는 경우, 연산 코드를 익명의 람다식으로 작성
 
 */
