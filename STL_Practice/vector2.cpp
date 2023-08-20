@@ -11,12 +11,17 @@ class Word {
 	string korean;
 public:
 	Word(string eng, string kor) : english(eng), korean(kor) {}
+	//this를 사용하지 않고 위와 같이 작성함에 따라서 코드의 가독성을 높이고 혼동을 줄일 수 있습니다.
+	//초기화 목록 사용한 것임.
 	string getEng() const { return english; }
 	string getKor() const { return korean; }
 };
 
 int main() {
-	srand(static_cast<unsigned>(time(0)));
+	srand(static_cast<unsigned>(time(0))); // 안전한 형식의 C++ 스타일의 형 변환 연산자
+	//srand((unsigned)time(0)); C 스타일의 형 변환 방식입니다. 괄호 안에 변환하려는 타입을 명시하고 값을 대입
+	//C++ 코드를 작성할 때는 가급적 C++ 스타일의 static_cast를 사용하는 것이 좋습니다. 이는 코드의 가독성과 유지보수를 향상시키며, 
+	//형식 관련 문제를 최소화하는 데 도움이 됩니다.
 	cout << "영어 어휘 테스트를 시작합니다. 1~4 외 다른 입력시 종료합니다." << endl;
 
 	vector<Word> v = {
@@ -32,6 +37,7 @@ int main() {
 		{"bear", "곰"},
 		{"trade", "거래"}
 	};
+
 
 	while (true) {
 		int index = rand() % v.size();
