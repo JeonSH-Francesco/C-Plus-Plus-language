@@ -1,39 +1,100 @@
 #include <iostream>
+#include <string>
+
 using namespace std;
 
-class Stack {
-	int s[100];
-	int top;
+class SortedArray {
+	int size;
+	int* p;
+	void sort();
 public:
-	Stack() { top = -1; }
-	bool operator !() {
-		if (top == -1) return true;
-		else return false;
-	}
-	Stack& operator<<(int x) {
-		s[top++] = x;
-		return *this;
-	}
-	Stack& operator>>(int& x) {
-		x = s[top--];
-		return *this;
-	}
+	SortedArray();
+	SortedArray(SortedArray& src);
+	SortedArray(int p[], int size);
+	~SortedArray();
+	SortedArray operator +(SortedArray& op2);
+	SortedArray& operator =(const SortedArray& op2);
+	void show();
 };
-
-int main() {
-	Stack stack;
-	stack << 3 << 5 << 10;
-	while (true) {
-		if (!stack) break;
-		int x;
-		stack >> x;
-		cout << x << ' ';
+void SortedArray::sort() {
+	int tmp;
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size - i - 1; j++) {
+			if (p[j] > p[j + 1]) {
+				tmp = p[j];
+				p[j] = p[j + 1];
+				p[j + 1] = tmp;
+			}
+		}
+	}
+}
+SortedArray::SortedArray() {
+	this->size = 0;
+	this->p = NULL;
+}
+SortedArray::SortedArray(SortedArray& src) {
+	this->size = src.size;
+	this->p = new int[size];
+	for (int i = 0; i < size; i++) {
+		this->p[i] = src.p[i];
+	}
+	sort();
+}
+SortedArray::SortedArray(int p[], int size) {
+	this->size = size;
+	this->p = new int[size];
+	for (int i = 0; i < size; i++) {
+		this->p[i] = p[i];
+	}
+	sort();
+}
+SortedArray::~SortedArray() {
+	delete[] p;
+}
+SortedArray SortedArray::operator +(SortedArray& op2) {
+	SortedArray tmp;
+	tmp.size = this->size + op2.size;
+	tmp.p = new int[tmp.size];
+	int ind = 0;
+	for (int i = 0; i < this->size; i++) {
+		tmp.p[ind++] = this->p[i];
+	}
+	for (int i = 0; i < op2.size; i++) {
+		tmp.p[ind++] = op2.p[i];
+	}
+	sort();
+	return tmp;
+}
+SortedArray& SortedArray::operator =(const SortedArray& op2) {
+	delete[] this->p;
+	this->size = op2.size;
+	this->p = new int[this->size];
+	for (int i = 0; i < size; i++) {
+		this->p[i] = op2.p[i];
+	}
+	sort();
+	return *this;
+}
+void SortedArray::show() {
+	cout << "배열 출력 : ";
+	for (int i = 0; i < size; i++) {
+		cout << p[i] << ' ';
 	}
 	cout << endl;
-	return 0;
 }
 
+int main() {
+	int n[] = { 2,20,6 };
+	int m[] = { 10,7,8,30 };
 
+	SortedArray a(n, 3), b(m, 4), c;
+	c = a + b;
+
+	a.show();
+	b.show();
+	c.show();
+	return 0;
+}
 
 /*
 #include <iostream>
@@ -595,6 +656,218 @@ int main() {
 	a.show(); b.show(); c.show();
 	if (a == c)
 		cout << "a and c are the same" << endl;
+
+	return 0;
+}
+-----
+7-1문제
+#include <iostream>
+#include <string>
+#include <cstring>
+
+using namespace std;
+
+class Matrix {
+	int m[4];
+public:
+	Matrix() : Matrix(0, 0, 0, 0) {}
+	Matrix(int m1, int m2, int m3, int m4) {
+		m[0] = m1;
+		m[1] = m2;
+		m[2] = m3;
+		m[3] = m4;
+	}
+	void show() {
+		cout << "Matrix = { ";
+		for (int i = 0; i < 4; i++)
+			cout << m[i] << ' ';
+		cout << "}" << endl;
+	}
+	void operator >>(int mat[4]) {
+		for (int i = 0; i < 4; i++)
+			mat[i] = m[i];
+	}
+	Matrix& operator <<(int mat[4]) {
+		for (int i = 0; i < 4; i++)
+			m[i] = mat[i];
+		return *this;
+	}
+};
+
+int main() {
+	Matrix a(4, 3, 2, 1), b;
+	int x[4], y[4] = { 1,2,3,4 };
+	a >> x;
+	b << y;
+
+	for (int i = 0; i < 4; i++) cout << x[i] << ' ';
+	cout << endl;
+	b.show();
+
+	return 0;
+}
+
+
+----
+7-2번문제
+#include <iostream>
+#include <string>
+#include <cstring>
+using namespace std;
+
+class Matrix;
+void operator >>(Matrix mat1, int mat2[4]);
+Matrix& operator <<(Matrix& mat1,int mat2[4]);
+
+class Matrix {
+	int m[4];
+public:
+	Matrix():Matrix(0,0,0,0){}
+	Matrix(int m1, int m2, int m3, int m4) {
+		m[0] = m1;
+		m[1] = m2;
+		m[2] = m3;
+		m[3] = m4;
+	}
+	void show() {
+		cout << "Matrix = { ";
+		for (int i = 0; i < 4; i++)
+			cout << m[i] << ' ';
+		cout << "}" << endl;
+	}
+	friend void operator >>(Matrix mat1, int mat2[4]);
+	friend Matrix& operator <<(Matrix& mat1, int mat2[4]);
+};
+
+void operator >>(Matrix mat1, int mat2[4]) {
+	for (int i = 0; i < 4; i++)
+		mat2[i] = mat1.m[i];
+}
+
+Matrix& operator <<(Matrix& mat1, int mat2[4]) {
+	for (int i = 0; i < 4; i++) {
+		mat1.m[i] = mat2[i];
+	}
+	return mat1;
+}
+
+int main() {
+	Matrix a(4, 3, 2, 1), b;
+	int x[4], y[4] = { 1,2,3,4 };
+	a >> x;
+	b << y;
+
+	for (int i = 0; i < 4; i++) cout << x[i] << ' ';
+	cout << endl;
+	b.show();
+
+	return 0;
+}
+----------
+10번문제
+#include <iostream>
+#include <string>
+#include <cstring>
+
+using namespace std;
+
+class Statistics {
+	int* arr;
+	int size;
+public:
+	Statistics(int size = 0) { this->size = size; this->arr = new int[size]; }
+
+	Statistics& operator <<(int x) {
+		size++;
+		Statistics tmp(size);
+		for (int i = 0; i < size - 1; i++)
+			tmp.arr[i] = arr[i];
+		tmp.arr[size - 1] = x;
+
+		delete[] this->arr;
+		this->arr = new int[size];
+
+		for (int i = 0; i < size; i++)
+			this->arr[i] = tmp.arr[i];
+		return *this;
+	}
+
+	Statistics& operator ~() {
+		for (int i = 0; i < size; i++)
+			cout << arr[i] << ' ';
+		cout << endl;
+		return *this;
+	}
+
+	Statistics& operator >>(int& avg) {
+		int sum = 0;
+		for (int i = 0; i < size; i++)
+			sum += arr[i];
+		avg = sum / size;
+		return *this;
+	}
+
+	bool operator !() {
+		if (size == 0) return true;
+		else return false;
+	}
+};
+
+int main() {
+	Statistics stat;
+	if (!stat) cout << "현재 통계 데이터가 없습니다." << endl;
+
+	int x[5];
+	cout << "5개의 정수를 입력하라>>";
+	for (int i = 0; i < 5; i++) cin >> x[i];
+
+	for (int i = 0; i < 5; i++) stat << x[i];
+	stat << 100 << 200;
+	~stat;
+
+	int avg;
+	stat >> avg;
+	cout << "avg=" << avg << endl;
+
+	return 0;
+}
+-----------
+11번문제
+#include <iostream>
+#include <string>
+#include <cstring>
+
+using namespace std;
+
+class Stack {
+	int s[100];
+	int top;
+public:
+	Stack() { top = -1; }
+	bool operator !() {
+		if (top == -1) return true;
+		else return false;
+	}
+	Stack& operator<<(int x) {
+		s[++top] = x;
+		return *this;
+	}
+	Stack& operator>>(int &x) {
+		x = s[top--];
+		return *this;
+	}
+};
+
+int main() {
+	Stack stack;
+	stack << 3 << 5 << 10;
+	while (true) {
+		if (!stack) break;
+		int x;
+		stack >> x;
+		cout << x << ' ';
+	}
+	cout << endl;
 
 	return 0;
 }
