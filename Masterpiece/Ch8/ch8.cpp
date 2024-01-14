@@ -1,5 +1,4 @@
 #include <iostream>
-
 using namespace std;
 
 class Printer {
@@ -8,9 +7,9 @@ class Printer {
 	int printedCount;
 	int availableCount;
 protected:
-	Printer(string mod = "", string manuf = "", int a = 0) {
-		this->model = mod;
-		this->manufacturer = manuf;
+	Printer(string mo = "", string me = "", int a = 0) {
+		this->model = mo;
+		this->manufacturer = me;
 		this->availableCount = a;
 		this->printedCount = 0;
 	}
@@ -31,8 +30,7 @@ protected:
 class InkJetPrinter : public Printer {
 	int availableInk;
 public:
-	InkJetPrinter(string mod = "", string manuf = "", int a = 0, int i = 0) : Printer(mod, manuf, a) 
-	{ this->availableInk = i; }
+	InkJetPrinter(string mo = "", string me = "", int a = 0, int i = 0) : Printer(mo, me, a) { this->availableInk = i; }
 	bool isValidInkJetPrint(int pages) {
 		if (availableInk > pages) return true;
 		else return false;
@@ -59,8 +57,7 @@ public:
 class LaserPrinter : public Printer {
 	int availableToner;
 public:
-	LaserPrinter(string mod = "", string manuf = "", int a = 0, int t = 0) : Printer(mod, manuf, a) 
-	{ this->availableToner = t; }
+	LaserPrinter(string mo = "", string me = "", int a = 0, int t = 0) : Printer(mo, me, a) { this->availableToner = t; }
 	bool isValidLaserPrint(int pages) {
 		if (availableToner > pages) return true;
 		else return false;
@@ -85,8 +82,8 @@ public:
 };
 
 int main() {
-	InkJetPrinter ink("Officejet V40", "HP", 5, 10);
-	LaserPrinter laser("SCX-6x45", "삼성전자", 3, 20);
+	InkJetPrinter ink("Officejet V40", "HP", 100, 100);
+	LaserPrinter laser("SCX-6x45", "삼성전자", 100, 100);
 
 	cout << "현재 작동중인 2대의 프린터는 아래와 같다" << endl;
 	cout << "잉크젯 : ";
@@ -96,9 +93,17 @@ int main() {
 
 	int printer, paper;
 	char ch;
+	
+	
 	while (true) {
 		cout << endl << "프린터(1:잉크젯, 2:레이저)와 매수 입력>>";
 		cin >> printer >> paper;
+
+		if (printer != 1 && printer != 2) {
+			cout << "올바른 프린터를 선택하세요.";
+			continue;
+		}
+
 		switch (printer) {
 		case 1: ink.printInkJet(paper); break;
 		case 2: laser.printInkJet(paper); break;
@@ -109,13 +114,22 @@ int main() {
 
 		cout << "게속 프린트 하시겠습니까(y/n)>>";
 		cin >> ch;
-		if (ch == 'n') break;
-		else continue;
+		if (ch == 'n') {
+			break;
+		}
+		else if (ch != 'y') {
+			cout << "잘못된 입력입니다. 게속 진행하려면 y를 누르세요. "<<endl;
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			//streamsize의 타입의 최대값을 반환-> 현재 입력버퍼에서 최대한 많은 문자를 개행문자가 나올 때까지 무시
+			cout << "게속 진행하시겠습니까(y/n)>>";
+			cin >> ch; 
+		}
+
 	}
 
 	return 0;
 }
-
 
 /*
 1번문제
