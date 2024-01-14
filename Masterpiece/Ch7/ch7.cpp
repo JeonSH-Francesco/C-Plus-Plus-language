@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-
 using namespace std;
 
 class SortedArray {
@@ -16,10 +15,11 @@ public:
 	SortedArray& operator =(const SortedArray& op2);
 	void show();
 };
-void SortedArray::sort() {
+
+void SortedArray::sort(){
 	int tmp;
 	for (int i = 0; i < size; i++) {
-		for (int j = 0; j < size - i - 1; j++) {
+		for (int j = 0; j < size - i-1; j++) {
 			if (p[j] > p[j + 1]) {
 				tmp = p[j];
 				p[j] = p[j + 1];
@@ -28,10 +28,12 @@ void SortedArray::sort() {
 		}
 	}
 }
+
 SortedArray::SortedArray() {
 	this->size = 0;
 	this->p = NULL;
 }
+
 SortedArray::SortedArray(SortedArray& src) {
 	this->size = src.size;
 	this->p = new int[size];
@@ -40,6 +42,7 @@ SortedArray::SortedArray(SortedArray& src) {
 	}
 	sort();
 }
+
 SortedArray::SortedArray(int p[], int size) {
 	this->size = size;
 	this->p = new int[size];
@@ -48,14 +51,18 @@ SortedArray::SortedArray(int p[], int size) {
 	}
 	sort();
 }
+
 SortedArray::~SortedArray() {
 	delete[] p;
 }
-SortedArray SortedArray::operator +(SortedArray& op2) {
+
+//+연산자는 SortedArray 객체를 리턴하므로 복사 생성자가 반드시 필요하다.
+SortedArray SortedArray::operator+(SortedArray& op2) {
 	SortedArray tmp;
 	tmp.size = this->size + op2.size;
 	tmp.p = new int[tmp.size];
 	int ind = 0;
+
 	for (int i = 0; i < this->size; i++) {
 		tmp.p[ind++] = this->p[i];
 	}
@@ -65,16 +72,21 @@ SortedArray SortedArray::operator +(SortedArray& op2) {
 	sort();
 	return tmp;
 }
+
+//a=b;의 연산에서 =연산자는 객체 a의 배열 메모리를 모두 delete 시키고 객체 b의 크기만큼 다시 할당받은 후
+//객체 b의 배열 내용을 복사하도록 작성
 SortedArray& SortedArray::operator =(const SortedArray& op2) {
 	delete[] this->p;
 	this->size = op2.size;
 	this->p = new int[this->size];
+
 	for (int i = 0; i < size; i++) {
 		this->p[i] = op2.p[i];
 	}
 	sort();
 	return *this;
 }
+
 void SortedArray::show() {
 	cout << "배열 출력 : ";
 	for (int i = 0; i < size; i++) {
@@ -95,6 +107,7 @@ int main() {
 	c.show();
 	return 0;
 }
+
 
 /*
 #include <iostream>
