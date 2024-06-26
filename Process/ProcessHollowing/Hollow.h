@@ -8,12 +8,15 @@ EXTERN_C NTSTATUS NTAPI NtResumeThread(HANDLE, PULONG);
 class Hollow
 {
 private:
-	STARTUPINFOW si;
-	PROCESS_INFORMATION pi;
+    STARTUPINFOW si;
+    PROCESS_INFORMATION pi;
 public:
-	Hollow();
-	~Hollow();
-	bool CreateDummyProcess(const wchar_t* pCommandLine);
-	bool ProcessHollowing(const wchar_t* pProgramPath);
-	void TerminateDummyProcess();
+    Hollow();
+    ~Hollow();
+    bool CreateDummyProcess(const wchar_t* pCommandLine);
+    bool ProcessHollowing(const wchar_t* pProgramPath);
+    void TerminateDummyProcess();
 };
+
+void PrintError(const char* msg); // PrintError 함수 선언
+
