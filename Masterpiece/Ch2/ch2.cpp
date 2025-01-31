@@ -1,24 +1,19 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <cstring>
-#include <string>
 using namespace std;
 
 int main() {
-
 	int countStack = 0, numCount = 0;
 	char buf[10000];
 
 	cout << "영문 텍스트를 입력하세요. 히스토그램을 그립니다." << endl;
-	cout << "텍스트의 끝은 ; 입니다. 10000개까지 가능합니다." << endl;
+	cout << "텍스트의 끝은 ; 입니다. 10000개 까지 가능합니다." << endl;
 
 	cin.getline(buf, 10000, ';');
 
-	for (int i = 0; i <= strlen(buf); i++)
-	{
-		//isalpha(char c)->알파벳인지 검사하기 위한 함수
-		//tolower(char c)->대문자를 소문자로 바꾸기 위한 함수
-		if (isalpha(buf[i]) != 0)
-		{
+	for (int i = 0; i < strlen(buf); i++) {
+		if (isalpha(buf[i]) != 0) {
 			buf[i] = tolower(buf[i]);
 			numCount++;
 		}
@@ -26,17 +21,21 @@ int main() {
 
 	cout << "총 알파벳 수 " << numCount << endl;
 
-	for (char i = 'a'; i <= 'z'; i++)
-	{
-		for (int j = 0; j <= strlen(buf); j++)
-			if (buf[j] == i)
+	for (char i = 'a'; i <= 'z'; i++) {
+		for (int j = 0; j < strlen(buf); j++) {
+			if (buf[j] == i) {
 				countStack++;
-		cout << i << "(" << countStack << ")" << " : ";
-		for (int k = 0; k < countStack; k++)
+			}
+		}
+
+		cout << i << "(" << countStack <<")" << ":";
+		for (int k = 0; k < countStack; k++) {
 			cout << "*";
+		}
 		cout << endl;
 		countStack = 0;
 	}
+	return 0;
 }
 
 
@@ -258,6 +257,26 @@ int main() {
 	printf("1에서 %d까지의 합은 %d입니다.\n", n, sum);
 	return 0;
 }
+
+->
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+
+int main() {
+	int k = 0, n = 0;
+	int sum = 0;
+	cout << "끝 수를 입력하세요>>";
+	cin >> n;
+
+	for (k = 1; k <=n; k++) {
+		sum += k;
+	}
+	cout << "1에서 " << n << "까지의 합은 " << sum << "입니다." << endl;
+	return 0;
+}
+
+
 ------
 12번문제
 #define _CRT_SECURE_NO_WARNINGS
