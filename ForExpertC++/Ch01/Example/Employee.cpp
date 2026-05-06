@@ -4,64 +4,77 @@
 using namespace std;
 
 namespace Records {
-	Employee::Employee(const std::string& firstName, const std::string& lastName) : mFirstName(firstName), mLastName(lastName) {
 
-	}
-	void Employee::promote(int raiseAmount) {
-		setSalary(getSalary() + raiseAmount);
-	}
-	void Employee::demote(int demeritAmount) {
-		setSalary(getSalary() + demeritAmount);
-	}
+    // 생성자: 이름 초기화
+    Employee::Employee(const std::string& firstName, const std::string& lastName)
+        : mFirstName(firstName), mLastName(lastName) {
+    }
 
-	void Employee::hire() {
-		mHired = true;
-	}
-	void Employee::fire() {
-		mHired = false;
-	}
+    // 연봉 증가
+    void Employee::promote(int raiseAmount) {
+        setSalary(getSalary() + raiseAmount);
+    }
 
-	void Employee::display() const {
-		cout << "Employee:" << getLastName() << "," << getFirstName() << endl;
-		cout << "------------------------" << endl;
-		cout << (isHired() ? "CurrentEmployee" : "Former Employee") << endl;
-		cout << "Employee Number : " << getEmployeeNumber() << endl;
-		cout << "Salary : $" << getSalary() << endl;
-		cout << endl;
-	}
+    // 연봉 감소
+    void Employee::demote(int demeritAmount) {
+        setSalary(getSalary() - demeritAmount);
+    }
 
-	void Employee::setFirstName(const string& firstName) {
-		mFirstName = firstName;
-	}
+    // 고용 상태 설정
+    void Employee::hire() {
+        mHired = true;
+    }
 
-	const string& Employee::getFirstName() const {
-		return mFirstName;
-	}
-	void Employee::setLastName(const string& lastName) {
-		mLastName = lastName;
-	}
+    void Employee::fire() {
+        mHired = false;
+    }
 
-	const string& Employee::getLastName() const {
-		return mLastName;
-	}
+    // 직원 정보 출력
+    void Employee::display() const {
+        cout << "Employee: " << getLastName() << ", " << getFirstName() << endl;
+        cout << "------------------------" << endl;
+        cout << (isHired() ? "Current Employee" : "Former Employee") << endl;
+        cout << "Employee Number: " << getEmployeeNumber() << endl;
+        cout << "Salary: $" << getSalary() << endl;
+        cout << endl;
+    }
 
-	void Employee::setEmployeeNumber(int employeeNumber) {
-		mEmployeeNumber = employeeNumber;
-	}
+    // ===== Setter =====
+    void Employee::setFirstName(const string& firstName) {
+        mFirstName = firstName;
+    }
 
-	int Employee::getEmployeeNumber() const {
-		return mEmployeeNumber;
-	}
+    void Employee::setLastName(const string& lastName) {
+        mLastName = lastName;
+    }
 
-	void Employee::setSalary(int newSalary) {
-		mSalary = newSalary;
-	}
+    void Employee::setEmployeeNumber(int employeeNumber) {
+        mEmployeeNumber = employeeNumber;
+    }
 
-	int Employee::getSalary() const {
-		return mSalary;
-	}
+    void Employee::setSalary(int newSalary) {
+        mSalary = newSalary;
+    }
 
-	bool Employee::isHired() const {
-		return mHired;
-	}
+    // ===== Getter =====
+    const string& Employee::getFirstName() const {
+        return mFirstName;
+    }
+
+    const string& Employee::getLastName() const {
+        return mLastName;
+    }
+
+    int Employee::getEmployeeNumber() const {
+        return mEmployeeNumber;
+    }
+
+    int Employee::getSalary() const {
+        return mSalary;
+    }
+
+    bool Employee::isHired() const {
+        return mHired;
+    }
+
 }
